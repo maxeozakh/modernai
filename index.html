@@ -262,6 +262,8 @@ const prefs = JSON.parse(localStorage.getItem(KEY + '-prefs') || '{}');
 const withExtras = () => prefs['with-extras'] !== false;
 const counted = items => withExtras() ? items : items.filter(i => i.type !== 'extra');
 
+const defaultOpen = w => (today >= w.start && today <= w.end) || (w.items.some(i => !state[i.id]) && today <= w.end);
+
 function render() {
   const root = document.getElementById('weeks');
   root.innerHTML = WEEKS.map((w, wi) => {
@@ -281,7 +283,8 @@ function render() {
         </label>`).join('')}</div>`;
     }).join('');
     const onlyExtra = w.items.every(i => i.type === 'extra');
-    return `<details class="week ${current ? 'current' : ''} ${onlyExtra ? 'only-extra' : ''}" data-w="${wi}" ${current || w.items.some(i => !state[i.id]) && today <= w.end ? 'open' : ''}>
+    const open = prefs.open?.[w.start] ?? defaultOpen(w);
+    return `<details class="week ${current ? 'current' : ''} ${onlyExtra ? 'only-extra' : ''}" data-w="${wi}" ${open ? 'open' : ''}>
       <summary>
         <h2>${esc(w.title)}<span class="dates">${fmt(w.start)} – ${fmt(w.end)}</span></h2>
         ${current ? '<span class="tag now">this week</span>' : ''}
@@ -354,6 +357,14 @@ extrasBox.addEventListener('change', () => {
   savePrefs();
   update();
 });
+document.getElementById('weeks').addEventListener('toggle', e => {
+  const week = WEEKS[e.target.dataset.w];
+  if (!week) return;
+  const open = { ...prefs.open };
+  if (e.target.open === defaultOpen(week)) delete open[week.start]; else open[week.start] = e.target.open;
+  prefs.open = open;
+  savePrefs();
+}, true);
 document.getElementById('expand').onclick = () => document.querySelectorAll('.week').forEach(d => d.open = true);
 document.getElementById('collapse').onclick = () => document.querySelectorAll('.week').forEach(d => d.open = false);
 document.getElementById('export').onclick = () => {
