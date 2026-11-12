@@ -79,7 +79,6 @@
   .dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 8px; flex: none; }
   .dot.lecture { background: var(--lec); } .dot.hw { background: var(--hw); }
   .dot.extra { background: var(--extra); } .dot.setup { background: var(--call); }
-  body.hide-done .item.done { display: none; }
   body.hide-extra .group.extra, body.hide-extra .bar.extra, body.hide-extra .week.only-extra { display: none; }
   body.hide-extra .bars { grid-template-columns: repeat(3, 1fr); }
   footer { color: var(--muted); font-size: 12px; margin-top: 30px; }
@@ -101,7 +100,6 @@
       <div class="bar extra"><label><span>vlad's extras</span><span id="p-extra"></span></label><div class="track"><div class="fill" id="f-extra" style="background:var(--extra)"></div></div></div>
     </div>
     <div class="controls">
-      <label><input type="checkbox" id="hide-done"> hide done</label>
       <label><input type="checkbox" id="with-extras"> with extras</label>
       <button id="expand">expand all</button>
       <button id="collapse">collapse all</button>
@@ -340,14 +338,6 @@ themeSelect.addEventListener('change', () => {
 });
 
 const savePrefs = () => localStorage.setItem(KEY + '-prefs', JSON.stringify(prefs));
-const hideDone = document.getElementById('hide-done');
-hideDone.checked = !!prefs['hide-done'];
-document.body.classList.toggle('hide-done', hideDone.checked);
-hideDone.addEventListener('change', () => {
-  prefs['hide-done'] = hideDone.checked;
-  document.body.classList.toggle('hide-done', hideDone.checked);
-  savePrefs();
-});
 const extrasBox = document.getElementById('with-extras');
 extrasBox.checked = withExtras();
 document.body.classList.toggle('hide-extra', !extrasBox.checked);
