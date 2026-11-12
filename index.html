@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Modern AI course — ctrl tracker</title>
+<title>modern AI course — ctrl tracker</title>
 <script>
   const savedTheme = localStorage.getItem('modernaicourse-theme');
   if (savedTheme === 'light' || savedTheme === 'dark') document.documentElement.dataset.theme = savedTheme;
@@ -67,7 +67,7 @@
   .plan { margin: 0 16px 10px; padding: 8px 12px; background: var(--panel2); border-left: 3px solid var(--call);
     border-radius: 6px; font-size: 13px; color: var(--muted); white-space: pre-line; }
   .group { padding: 4px 16px 12px; }
-  .group h3 { margin: 8px 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .group h3 { margin: 8px 0 4px; font-size: 13px; color: var(--muted); }
   .item { display: flex; gap: 10px; align-items: flex-start; padding: 6px 8px; border-radius: 8px; }
   .item:hover { background: var(--panel2); }
   .item input { margin-top: 4px; width: 16px; height: 16px; accent-color: var(--ok); flex: none; cursor: pointer; }
@@ -80,7 +80,8 @@
   .dot.lecture { background: var(--lec); } .dot.hw { background: var(--hw); }
   .dot.extra { background: var(--extra); } .dot.setup { background: var(--call); }
   body.hide-done .item.done { display: none; }
-  body.hide-extra .group.extra { display: none; }
+  body.hide-extra .group.extra, body.hide-extra .bar.extra, body.hide-extra .week.only-extra { display: none; }
+  body.hide-extra .bars { grid-template-columns: repeat(3, 1fr); }
   footer { color: var(--muted); font-size: 12px; margin-top: 30px; }
   @media (max-width: 640px) { .bars { grid-template-columns: repeat(2, 1fr); } }
 </style>
@@ -88,163 +89,164 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>Intro to Modern AI (CMU 10-202) — ctrl study group</h1>
-    <p>Zico Kolter's <a href="https://modernaicourse.org" target="_blank">modernaicourse.org</a>, at Vlad's pace from the <b>ctrl → readme</b> topic. Checkboxes are saved in this browser.</p>
+    <h1>intro to modern AI (CMU 10-202) — ctrl study group</h1>
+    <p>zico kolter's <a href="https://modernaicourse.org" target="_blank">modernaicourse.org</a>, at vlad's pace from the <b>ctrl → readme</b> topic. checkboxes are saved in this browser.</p>
   </header>
 
   <div class="top">
     <div class="bars">
-      <div class="bar"><label><span>Overall</span><span id="p-all"></span></label><div class="track"><div class="fill" id="f-all" style="background:var(--ok)"></div></div></div>
-      <div class="bar"><label><span>Lectures</span><span id="p-lecture"></span></label><div class="track"><div class="fill" id="f-lecture" style="background:var(--lec)"></div></div></div>
-      <div class="bar"><label><span>Homeworks</span><span id="p-hw"></span></label><div class="track"><div class="fill" id="f-hw" style="background:var(--hw)"></div></div></div>
-      <div class="bar"><label><span>Vlad's extras</span><span id="p-extra"></span></label><div class="track"><div class="fill" id="f-extra" style="background:var(--extra)"></div></div></div>
+      <div class="bar"><label><span>overall</span><span id="p-all"></span></label><div class="track"><div class="fill" id="f-all" style="background:var(--ok)"></div></div></div>
+      <div class="bar"><label><span>lectures</span><span id="p-lecture"></span></label><div class="track"><div class="fill" id="f-lecture" style="background:var(--lec)"></div></div></div>
+      <div class="bar"><label><span>homeworks</span><span id="p-hw"></span></label><div class="track"><div class="fill" id="f-hw" style="background:var(--hw)"></div></div></div>
+      <div class="bar extra"><label><span>vlad's extras</span><span id="p-extra"></span></label><div class="track"><div class="fill" id="f-extra" style="background:var(--extra)"></div></div></div>
     </div>
     <div class="controls">
-      <label><input type="checkbox" id="hide-done"> Hide done</label>
-      <label><input type="checkbox" id="hide-extra"> Hide extras</label>
-      <button id="expand">Expand all</button>
-      <button id="collapse">Collapse all</button>
-      <button id="export">Export progress</button>
-      <button id="import">Import</button>
-      <button id="reset">Reset</button>
-      <label>Theme
+      <label><input type="checkbox" id="hide-done"> hide done</label>
+      <label><input type="checkbox" id="with-extras"> with extras</label>
+      <button id="expand">expand all</button>
+      <button id="collapse">collapse all</button>
+      <button id="export">export progress</button>
+      <button id="import">import</button>
+      <button id="reset">reset</button>
+      <label>theme
         <select id="theme">
-          <option value="system">System</option>
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
+          <option value="system">system</option>
+          <option value="light">light</option>
+          <option value="dark">dark</option>
         </select>
       </label>
     </div>
   </div>
 
   <div class="info">
-    <b>How the group works</b>
+    <b>how the group works</b>
     <ul>
-      <li>Calls: Sundays 19:00 Tashkent. Zoom link is posted in readme on the day.</li>
-      <li>Homeworks are notebooks checked by the grader — <a href="https://modernaicourse.org/enroll.html" target="_blank">register</a>, <a href="https://youtu.be/jrtb9y6xg6U" target="_blank">grader tutorial</a>.</li>    </ul>
+      <li>calls: sundays 19:00 tashkent. zoom link is posted in readme on the day.</li>
+      <li>homeworks are notebooks checked by the grader — <a href="https://modernaicourse.org/enroll.html" target="_blank">register</a>, <a href="https://youtu.be/jrtb9y6xg6U" target="_blank">grader tutorial</a>.</li>
+    </ul>
   </div>
 
   <main id="weeks"></main>
 
-  <footer>Source: Vlad Ten's posts in ctrl/readme, 20 Sep – 9 Nov 2026.</footer>
+  <footer>source: vlad ten's posts in ctrl/readme, 20 sep – 9 nov 2026.</footer>
 </div>
 
 <script>
 const yt = id => `https://youtu.be/${id}`;
 const colab = n => `https://colab.research.google.com/github/modernaicourse/hw${n}/blob/main/hw${n}.ipynb`;
 const marimo = n => `https://molab.marimo.io/github/modernaicourse/hw${n}/blob/main/hw${n}_marimo.py`;
-const L = (n, title, ids) => ({ id: `L${n}`, type: 'lecture', title: `Lecture ${n}: ${title}`,
+const L = (n, title, ids) => ({ id: `L${n}`, type: 'lecture', title: `lecture ${n}: ${title}`,
   links: ids.map((v, i) => [ids.length > 1 ? `video ${i + 1}` : 'video', yt(v)]) });
-const HW = (n, title, note, hasMarimo) => ({ id: `HW${n}`, type: 'hw', title: `Homework ${n}: ${title}`, note,
-  links: [['Colab', colab(n)], ...(hasMarimo ? [['marimo', marimo(n)]] : [])] });
+const HW = (n, title, note, hasMarimo) => ({ id: `HW${n}`, type: 'hw', title: `homework ${n}: ${title}`, note,
+  links: [['colab', colab(n)], ...(hasMarimo ? [['marimo', marimo(n)]] : [])] });
 const X = (id, title, url, note) => ({ id: `x-${id}`, type: 'extra', title, note, links: [['open', url]] });
 
 const WEEKS = [
   {
-    title: 'Week 1 — Intro & supervised learning', start: '2026-09-20', end: '2026-09-26',
-    plan: 'Kickoff (20 Sep): moving from pmpp & cs149 to modernaicourse.org.\nIntro lectures 1, 2 and supervised; homework 0; register in the grader.',
+    title: 'week 1 — intro & supervised learning', start: '2026-09-20', end: '2026-09-26',
+    plan: 'kickoff (20 sep): moving from pmpp & cs149 to modernaicourse.org.\nintro lectures 1, 2 and supervised; homework 0; register in the grader.',
     items: [
-      { id: 'setup-enroll', type: 'setup', title: 'Register in the grader', links: [['enroll', 'https://modernaicourse.org/enroll.html'], ['tutorial video', yt('jrtb9y6xg6U')]] },
-      L(1, 'Class logistics and a brief history of AI', ['37mSOtgYIjM', 'dPvIArnLMU4']),
-      L(2, 'Intro to supervised learning', ['xIQkf7ZGQhM']),
-      HW(0, 'Autograding and programming basics', '"Don\'t forget to do the first notebook"', true),
-      X('marimo', 'marimo.io — notebook tool Vlad liked', 'https://marimo.io'),
-      X('iclimb', 'iClimbTrees — Probability 1 (optional, fills gaps from lectures 1–2)', 'https://www.iclimbtrees.com/courses'),
+      { id: 'setup-enroll', type: 'setup', title: 'register in the grader', links: [['enroll', 'https://modernaicourse.org/enroll.html'], ['tutorial video', yt('jrtb9y6xg6U')]] },
+      L(1, 'class logistics and a brief history of AI', ['37mSOtgYIjM', 'dPvIArnLMU4']),
+      L(2, 'intro to supervised learning', ['xIQkf7ZGQhM']),
+      HW(0, 'autograding and programming basics', '"don\'t forget to do the first notebook"', true),
+      X('marimo', 'marimo.io — notebook tool vlad liked', 'https://marimo.io'),
+      X('iclimb', 'iclimbtrees — probability 1 (optional, fills gaps from lectures 1–2)', 'https://www.iclimbtrees.com/courses'),
     ],
   },
   {
-    title: 'Week 2 — Linear algebra & linear models', start: '2026-09-27', end: '2026-10-03',
-    plan: '1/21 Linear algebra and PyTorch — HW0 due\n1/28 Linear models — HW1 out',
+    title: 'week 2 — linear algebra & linear models', start: '2026-09-27', end: '2026-10-03',
+    plan: '1/21 linear algebra and PyTorch — HW0 due\n1/28 linear models — HW1 out',
     items: [
-      L(3, 'Linear algebra and PyTorch', ['tlbLH77GFLQ']),
-      L(4, 'Linear models', ['CkIlroMWW18']),
-      HW(1, 'Introduction to linear algebra and PyTorch', 'Tip: treat 0/1 digits as 2D arrays, print the grid; play with indexing like A[:, i] on a 2D tensor.', true),
-      X('udl', 'Understanding Deep Learning (book)', 'https://udlbook.github.io/udlbook/'),
-      X('deepml', 'Deep-ML — practice ML problems', 'https://www.deep-ml.com'),
-      X('kolter-linalg', 'Zico Kolter — linear algebra review notes', 'https://www.cs.cmu.edu/~zkolter/course/linalg/'),
+      L(3, 'linear algebra and PyTorch', ['tlbLH77GFLQ']),
+      L(4, 'linear models', ['CkIlroMWW18']),
+      HW(1, 'introduction to linear algebra and PyTorch', 'tip: treat 0/1 digits as 2D arrays, print the grid; play with indexing like A[:, i] on a 2D tensor.', true),
+      X('udl', 'understanding deep learning (book)', 'https://udlbook.github.io/udlbook/'),
+      X('deepml', 'deep-ml — practice ML problems', 'https://www.deep-ml.com'),
+      X('kolter-linalg', 'zico kolter — linear algebra review notes', 'https://www.cs.cmu.edu/~zkolter/course/linalg/'),
       X('pt-tensors', 'PyTorch tensors tutorial (for HW1)', 'https://docs.pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html'),
-      X('yk8', 'Video shared with HW1 results (1 Oct)', 'https://www.youtube.com/watch?v=yK8HfzDlOD4'),
+      X('yk8', 'video shared with HW1 results (1 oct)', 'https://www.youtube.com/watch?v=yK8HfzDlOD4'),
     ],
   },
   {
-    title: 'Week 3 — Loss functions & optimization', start: '2026-10-04', end: '2026-10-10',
-    plan: '1/30 Loss functions and probability\n2/2 Optimization and gradient descent',
+    title: 'week 3 — loss functions & optimization', start: '2026-10-04', end: '2026-10-10',
+    plan: '1/30 loss functions and probability\n2/2 optimization and gradient descent',
     items: [
-      L(5, 'Loss functions and probability', ['v3-kn7ErcE4']),
-      L(6, 'Optimization and gradient descent', ['zKSghsymDdc']),
-      X('ila', 'Interactive Linear Algebra (Georgia Tech)', 'https://textbooks.math.gatech.edu/ila/'),
-      X('immersive', 'Immersive Math — linear algebra', 'https://immersivemath.com/ila/index.html'),
+      L(5, 'loss functions and probability', ['v3-kn7ErcE4']),
+      L(6, 'optimization and gradient descent', ['zKSghsymDdc']),
+      X('ila', 'interactive linear algebra (georgia tech)', 'https://textbooks.math.gatech.edu/ila/'),
+      X('immersive', 'immersive math — linear algebra', 'https://immersivemath.com/ila/index.html'),
       X('3b1b-lintrans', '3Blue1Brown — linear transformations', 'https://www.3blue1brown.com/?lesson=linear-transformations&topic=linear-algebra'),
       X('3b1b-transpose', '3Blue1Brown — the deeper meaning of matrix transpose', 'https://www.youtube.com/watch?v=g4ecBFmvAYU'),
-      X('xent-1', 'Cross-entropy video', 'https://www.youtube.com/watch?v=l6DKRf-fAAM'),
-      X('xent-2', '3Blue1Brown — Reinventing entropy (compression is intelligence, pt. 1)', 'https://www.youtube.com/watch?v=GIYgs6v2YfU'),
-      X('cs109', 'Stanford CS109 Probability — Lecture 1 (whole playlist)', 'https://www.youtube.com/watch?v=2MuDZIAzBMY&list=PLoROMvodv4rOpr_A7B9SriE_iZmkanvUg'),
-      X('calc', '3Blue1Brown — Essence of calculus (derivatives)', 'https://www.youtube.com/watch?v=WUvTyaaNkzM&list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr'),
+      X('xent-1', 'cross-entropy video', 'https://www.youtube.com/watch?v=l6DKRf-fAAM'),
+      X('xent-2', '3Blue1Brown — reinventing entropy (compression is intelligence, pt. 1)', 'https://www.youtube.com/watch?v=GIYgs6v2YfU'),
+      X('cs109', 'stanford CS109 probability — lecture 1 (whole playlist)', 'https://www.youtube.com/watch?v=2MuDZIAzBMY&list=PLoROMvodv4rOpr_A7B9SriE_iZmkanvUg'),
+      X('calc', '3Blue1Brown — essence of calculus (derivatives)', 'https://www.youtube.com/watch?v=WUvTyaaNkzM&list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr'),
       X('gd', '3Blue1Brown — gradient descent', 'https://www.youtube.com/watch?v=IHZwWFHWa-w&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&index=2'),
     ],
   },
   {
-    title: 'Week 4 — Training a linear model & neural nets', start: '2026-10-11', end: '2026-10-17',
-    plan: '2/6 Putting it together: Training a linear model — HW2 out\n2/9 Neural network models',
+    title: 'week 4 — training a linear model & neural nets', start: '2026-10-11', end: '2026-10-17',
+    plan: '2/6 putting it together: training a linear model — HW2 out\n2/9 neural network models',
     items: [
-      L(7, 'Putting it together: Training a linear model', ['DaZFJ1tKbAQ']),
-      L(8, 'Neural network models', ['9ukf-DPcqcQ']),
-      HW(2, 'Automatic differentiation and training a linear model', 'Lecture 8 note: the ReLU corner is handled by convention — just set a value for it in code.', false),
-      X('deepml-paths', 'Deep-ML learning paths (if you have spare time)', 'https://www.deep-ml.com/paths'),
-      X('sgd-visual', 'Stochastic gradient descent in 3 minutes (visual)', 'https://www.youtube.com/watch?v=UmathvAKj80'),
-      X('sgd-formal', 'Stochastic gradient descent (more formal)', 'https://www.youtube.com/watch?v=k3AiUhwHQ28'),
+      L(7, 'putting it together: training a linear model', ['DaZFJ1tKbAQ']),
+      L(8, 'neural network models', ['9ukf-DPcqcQ']),
+      HW(2, 'automatic differentiation and training a linear model', 'lecture 8 note: the ReLU corner is handled by convention — just set a value for it in code.', false),
+      X('deepml-paths', 'deep-ml learning paths (if you have spare time)', 'https://www.deep-ml.com/paths'),
+      X('sgd-visual', 'stochastic gradient descent in 3 minutes (visual)', 'https://www.youtube.com/watch?v=UmathvAKj80'),
+      X('sgd-formal', 'stochastic gradient descent (more formal)', 'https://www.youtube.com/watch?v=k3AiUhwHQ28'),
     ],
   },
   {
-    title: 'Week 5 — Neural network implementation', start: '2026-10-18', end: '2026-10-24',
-    plan: '2/11 Neural network implementation — HW2 due\n2/16 Midterm 1 - Supervised machine learning — HW3 out\n2/18 Structured input models',
+    title: 'week 5 — neural network implementation', start: '2026-10-18', end: '2026-10-24',
+    plan: '2/11 neural network implementation — HW2 due\n2/16 midterm 1 - supervised machine learning — HW3 out\n2/18 structured input models',
     items: [
-      L(9, 'Neural network implementation', ['dvpWqU13Jdo']),
-      L(10, 'Structured input models', ['MKb7RDDbfns']),
-      HW(3, 'Training a neural network', 'Vlad: give it more time and read the problem statements carefully; the tasks themselves are not hard.', false),
-      X('raschka', 'Sebastian Raschka — LLM Architecture Gallery', 'https://sebastianraschka.com/llm-architecture-gallery/'),
+      L(9, 'neural network implementation', ['dvpWqU13Jdo']),
+      L(10, 'structured input models', ['MKb7RDDbfns']),
+      HW(3, 'training a neural network', 'vlad: give it more time and read the problem statements carefully; the tasks themselves are not hard.', false),
+      X('raschka', 'sebastian raschka — LLM architecture gallery', 'https://sebastianraschka.com/llm-architecture-gallery/'),
       X('3b1b-chain', '3Blue1Brown — chain rule and product rule', 'https://www.3blue1brown.com/lessons/chain-rule-and-product-rule/'),
-      X('mml', 'Mathematics for Machine Learning (book)', 'https://mml-book.github.io'),
-      X('var-1', 'Variance and standard deviation', 'https://www.youtube.com/watch?v=dmSRMYQsM8w'),
+      X('mml', 'mathematics for machine learning (book)', 'https://mml-book.github.io'),
+      X('var-1', 'variance and standard deviation', 'https://www.youtube.com/watch?v=dmSRMYQsM8w'),
       X('var-2', 'StatQuest — mean, variance and standard deviation', 'https://www.youtube.com/watch?v=SzZ6GpcfoQY'),
-      X('nlp-before', 'Hugging Face — NLP before LLMs (n-gram models)', 'https://huggingface.co/spaces/dlouapre/nlp-before-llms#n-gram-models'),
+      X('nlp-before', 'hugging face — NLP before LLMs (n-gram models)', 'https://huggingface.co/spaces/dlouapre/nlp-before-llms#n-gram-models'),
     ],
   },
   {
-    title: 'Week 6 — Self-attention & Transformers', start: '2026-10-25', end: '2026-10-31',
-    plan: '2/23 Self attention\n2/25 Transformers\nVlad: he rushed lecture 11 a bit — embeddings may come out of nowhere, see extras.',
+    title: 'week 6 — self-attention & transformers', start: '2026-10-25', end: '2026-10-31',
+    plan: '2/23 self attention\n2/25 transformers\nvlad: he rushed lecture 11 a bit — embeddings may come out of nowhere, see extras.',
     items: [
-      L(11, 'Self attention', ['fxxDBiIvGDw']),
-      L(12, 'Transformers', ['Uvrg8GEQ8NE']),
-      X('clt', '3Blue1Brown — Central Limit Theorem', 'https://www.youtube.com/watch?v=zeJD6dqJ5lo'),
+      L(11, 'self attention', ['fxxDBiIvGDw']),
+      L(12, 'transformers', ['Uvrg8GEQ8NE']),
+      X('clt', '3Blue1Brown — central limit theorem', 'https://www.youtube.com/watch?v=zeJD6dqJ5lo'),
       X('3b1b-nn', '3Blue1Brown — neural networks series', 'https://www.3blue1brown.com/?topic=neural-networks'),
-      X('embeddings', 'Google ML crash course — embeddings', 'https://developers.google.com/machine-learning/crash-course/embeddings'),
-      X('byhand-mha', 'AI by Hand — multi-head attention in Excel', 'https://www.byhand.ai/p/multihead-attention'),
+      X('embeddings', 'google ML crash course — embeddings', 'https://developers.google.com/machine-learning/crash-course/embeddings'),
+      X('byhand-mha', 'AI by hand — multi-head attention in excel', 'https://www.byhand.ai/p/multihead-attention'),
     ],
   },
   {
-    title: 'Break week — catch up', start: '2026-11-01', end: '2026-11-07',
-    plan: 'Group voted for a break (76%). If you still have energy: attention, the annotated transformer, Karpathy, Deep-ML problems.',
+    title: 'break week — catch up', start: '2026-11-01', end: '2026-11-07',
+    plan: 'group voted for a break (76%). if you still have energy: attention, the annotated transformer, karpathy, deep-ml problems.',
     items: [
-      X('annotated', 'The Annotated Transformer', 'https://nlp.seas.harvard.edu/annotated-transformer/'),
-      X('karpathy', 'Karpathy — Neural Networks: Zero to Hero', 'https://karpathy.ai/zero-to-hero.html'),
-      X('mit-introml', 'MIT 6.390 Intro to ML — notes', 'https://introml.mit.edu/notes/'),
-      X('iclimb-2', 'iClimbTrees courses', 'https://www.iclimbtrees.com/'),
-      X('yandex-ml', 'Yandex contest — ML track', 'https://contest.yandex.ru/tracks/ml/'),
-      X('welch-1', 'Welch Labs — the misconception that almost stopped AI (how models learn, pt. 1)', 'https://www.youtube.com/watch?v=NrO20Jb-hy0'),
+      X('annotated', 'the annotated transformer', 'https://nlp.seas.harvard.edu/annotated-transformer/'),
+      X('karpathy', 'karpathy — neural networks: zero to hero', 'https://karpathy.ai/zero-to-hero.html'),
+      X('mit-introml', 'MIT 6.390 intro to ML — notes', 'https://introml.mit.edu/notes/'),
+      X('iclimb-2', 'iclimbtrees courses', 'https://www.iclimbtrees.com/'),
+      X('yandex-ml', 'yandex contest — ML track', 'https://contest.yandex.ru/tracks/ml/'),
+      X('welch-1', 'welch labs — the misconception that almost stopped AI (how models learn, pt. 1)', 'https://www.youtube.com/watch?v=NrO20Jb-hy0'),
     ],
   },
   {
-    title: 'Week 7 — Efficient inference', start: '2026-11-08', end: '2026-11-14',
-    plan: 'Next week: efficient LLM inference + please go through all the resources Vlad posted.',
+    title: 'week 7 — efficient inference', start: '2026-11-08', end: '2026-11-14',
+    plan: 'next week: efficient LLM inference + please go through all the resources vlad posted.',
     items: [
-      L(13, 'Efficient LLM inference', ['yB52_53xzAw']),
-      X('3b1b-gpt', '3Blue1Brown — GPT / transformers lesson (watch before the 8 Nov call)', 'https://www.3blue1brown.com/?topic=neural-networks&lesson=gpt'),
-      X('welch-2', 'Welch Labs video', 'https://www.youtube.com/watch?v=VkHfRKewkWw'),
-      X('welch-3', 'Welch Labs video', 'https://www.youtube.com/watch?v=qx7hirqgfuU'),
-      X('attn-lm3', 'How did the attention mechanism start an AI frenzy? (LM3)', 'https://www.youtube.com/watch?v=lOrTlKrdmkQ'),
-      X('mla', 'How DeepSeek rewrote the Transformer (MLA)', 'https://www.youtube.com/watch?v=0VLAoVGf_74'),
-      X('gqa', 'How attention got so efficient (GQA / MLA / DSA)', 'https://www.youtube.com/watch?v=Y-o545eYjXM'),
+      L(13, 'efficient LLM inference', ['yB52_53xzAw']),
+      X('3b1b-gpt', '3Blue1Brown — GPT / transformers lesson (watch before the 8 nov call)', 'https://www.3blue1brown.com/?topic=neural-networks&lesson=gpt'),
+      X('welch-2', 'welch labs video', 'https://www.youtube.com/watch?v=VkHfRKewkWw'),
+      X('welch-3', 'welch labs video', 'https://www.youtube.com/watch?v=qx7hirqgfuU'),
+      X('attn-lm3', 'how did the attention mechanism start an AI frenzy? (LM3)', 'https://www.youtube.com/watch?v=lOrTlKrdmkQ'),
+      X('mla', 'how DeepSeek rewrote the transformer (MLA)', 'https://www.youtube.com/watch?v=0VLAoVGf_74'),
+      X('gqa', 'how attention got so efficient (GQA / MLA / DSA)', 'https://www.youtube.com/watch?v=Y-o545eYjXM'),
     ],
   },
 ];
@@ -252,10 +254,13 @@ const WEEKS = [
 const KEY = 'modernaicourse-ctrl-v1';
 let state = JSON.parse(localStorage.getItem(KEY) || '{}');
 const save = () => localStorage.setItem(KEY, JSON.stringify(state));
-const GROUPS = [['lecture', 'Lectures'], ['hw', 'Homework'], ['setup', 'Setup'], ['extra', "Vlad's extras"]];
+const GROUPS = [['lecture', 'lectures'], ['hw', 'homework'], ['setup', 'setup'], ['extra', "vlad's extras"]];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const today = new Date().toISOString().slice(0, 10);
-const fmt = d => new Date(d + 'T12:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+const fmt = d => new Date(d + 'T12:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toLowerCase();
+const prefs = JSON.parse(localStorage.getItem(KEY + '-prefs') || '{}');
+const withExtras = () => prefs['with-extras'] !== false;
+const counted = items => withExtras() ? items : items.filter(i => i.type !== 'extra');
 
 function render() {
   const root = document.getElementById('weeks');
@@ -275,7 +280,8 @@ function render() {
           </span>
         </label>`).join('')}</div>`;
     }).join('');
-    return `<details class="week ${current ? 'current' : ''}" data-w="${wi}" ${current || w.items.some(i => !state[i.id]) && today <= w.end ? 'open' : ''}>
+    const onlyExtra = w.items.every(i => i.type === 'extra');
+    return `<details class="week ${current ? 'current' : ''} ${onlyExtra ? 'only-extra' : ''}" data-w="${wi}" ${current || w.items.some(i => !state[i.id]) && today <= w.end ? 'open' : ''}>
       <summary>
         <h2>${esc(w.title)}<span class="dates">${fmt(w.start)} – ${fmt(w.end)}</span></h2>
         ${current ? '<span class="tag now">this week</span>' : ''}
@@ -289,7 +295,7 @@ function render() {
 }
 
 function update() {
-  const all = WEEKS.flatMap(w => w.items);
+  const all = counted(WEEKS.flatMap(w => w.items));
   const stat = type => {
     const xs = type ? all.filter(i => i.type === type) : all;
     const done = xs.filter(i => state[i.id]).length;
@@ -301,7 +307,7 @@ function update() {
     document.getElementById('f-' + t).style.width = n ? `${(100 * d / n).toFixed(1)}%` : '0';
   }
   document.querySelectorAll('.week').forEach(el => {
-    const items = WEEKS[el.dataset.w].items;
+    const items = counted(WEEKS[el.dataset.w].items);
     const d = items.filter(i => state[i.id]).length;
     const c = el.querySelector('.wk-count');
     c.textContent = `${d}/${items.length}`;
@@ -330,31 +336,38 @@ themeSelect.addEventListener('change', () => {
   }
 });
 
-const prefs = JSON.parse(localStorage.getItem(KEY + '-prefs') || '{}');
-for (const p of ['hide-done', 'hide-extra']) {
-  const box = document.getElementById(p);
-  box.checked = !!prefs[p];
-  document.body.classList.toggle(p, box.checked);
-  box.addEventListener('change', () => {
-    prefs[p] = box.checked;
-    document.body.classList.toggle(p, box.checked);
-    localStorage.setItem(KEY + '-prefs', JSON.stringify(prefs));
-  });
-}
+const savePrefs = () => localStorage.setItem(KEY + '-prefs', JSON.stringify(prefs));
+const hideDone = document.getElementById('hide-done');
+hideDone.checked = !!prefs['hide-done'];
+document.body.classList.toggle('hide-done', hideDone.checked);
+hideDone.addEventListener('change', () => {
+  prefs['hide-done'] = hideDone.checked;
+  document.body.classList.toggle('hide-done', hideDone.checked);
+  savePrefs();
+});
+const extrasBox = document.getElementById('with-extras');
+extrasBox.checked = withExtras();
+document.body.classList.toggle('hide-extra', !extrasBox.checked);
+extrasBox.addEventListener('change', () => {
+  prefs['with-extras'] = extrasBox.checked;
+  document.body.classList.toggle('hide-extra', !extrasBox.checked);
+  savePrefs();
+  update();
+});
 document.getElementById('expand').onclick = () => document.querySelectorAll('.week').forEach(d => d.open = true);
 document.getElementById('collapse').onclick = () => document.querySelectorAll('.week').forEach(d => d.open = false);
 document.getElementById('export').onclick = () => {
   const text = JSON.stringify(state);
   navigator.clipboard?.writeText(text);
-  prompt('Progress JSON (copied to clipboard):', text);
+  prompt('progress JSON (copied to clipboard):', text);
 };
 document.getElementById('import').onclick = () => {
-  const text = prompt('Paste progress JSON:');
+  const text = prompt('paste progress JSON:');
   if (!text) return;
-  try { state = JSON.parse(text); save(); render(); } catch { alert('Invalid JSON'); }
+  try { state = JSON.parse(text); save(); render(); } catch { alert('invalid JSON'); }
 };
 document.getElementById('reset').onclick = () => {
-  if (confirm('Clear all checkboxes?')) { state = {}; save(); render(); }
+  if (confirm('clear all checkboxes?')) { state = {}; save(); render(); }
 };
 
 render();
